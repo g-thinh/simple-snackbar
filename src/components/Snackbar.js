@@ -1,19 +1,21 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleSnackbarClose } from "../redux/uiActions";
 import { FiX, FiBell } from "react-icons/fi";
 
-const Snackbar = ({ children, timeout }) => {
+const Snackbar = ({ timeout, anchor }) => {
   const dispatch = useDispatch();
   const TIME = (timeout - 500) / 1000 + "s";
   const SHOW = useSelector((state) => state.toggleSnackbar);
   const MESSAGE = useSelector((state) => state.snackbarMessage);
 
+  let POSITION;
   let TIMER;
   function handleTimeout() {
     TIMER = setTimeout(() => {
       dispatch(toggleSnackbarClose());
+      POSITION = {};
     }, timeout);
   }
 
@@ -26,9 +28,29 @@ const Snackbar = ({ children, timeout }) => {
     handleTimeout();
   }
 
+  switch (anchor) {
+    case "bottom-center": {
+      POSITION = { top: false, left: false };
+      console.log("bottom-center", POSITION);
+      break;
+    }
+
+    case "top-center": {
+      POSITION = { top: true, left: false, right: false, center: true };
+      console.log("top-center", POSITION);
+      break;
+    }
+
+    default: {
+      POSITION = { top: true, left: false, right: false, center: true };
+      console.log("default position", POSITION);
+      break;
+    }
+  }
+
   return (
     SHOW && (
-      <Bar timeout={TIME}>
+      <Bar timeout={TIME} position={POSITION}>
         <FiBell size="1.3rem" />
         <Text>{MESSAGE}</Text>
         <Button onClick={handleClose}>
@@ -39,6 +61,29 @@ const Snackbar = ({ children, timeout }) => {
   );
 };
 
+const fadein = (pos) => keyframes`
+    from {
+      ${pos.top ? "top: 0" : "bottom: 0"};
+      opacity: 0;
+    }
+    to {
+      ${pos.top ? "top: 10%" : "bottom: 10%"};
+      opacity: 1;
+    }
+`;
+
+const fadeout = (pos) => keyframes`
+    from {
+      ${pos.top ? "top: 10%" : "bottom: 10%"};
+      opacity: 1;
+    }
+    to {
+
+      ${pos.top ? "top: 0" : "bottom: 0"};
+      opacity: 0;
+    }
+`;
+
 const Bar = styled.div`
   display: flex;
   justify-content: center;
@@ -46,7 +91,7 @@ const Bar = styled.div`
 
   position: fixed;
   z-index: 9;
-  bottom: 10%;
+  ${(props) => (props.position.top ? "top: 10%" : "bottom: 10%")};
   left: 50%;
   transform: translateX(-50%);
 
@@ -61,33 +106,13 @@ const Bar = styled.div`
   font-size: 18px;
   text-align: center;
 
-  animation: fadein 0.5s, fadeout 0.5s ${(props) => props.timeout};
+  /* animation: fadein 0.5s, fadeout 0.5s ${(props) => props.timeout}; */
+  animation: ${(props) => fadein(props.position)} 0.5s,
+    ${(props) => fadeout(props.position)} 0.5s ${(props) => props.timeout};
 
   &:hover {
     /* filter: brightness(0.9); */
     /* background-color: hsla(200deg, 100%, 65%, 0.8); */
-  }
-
-  @keyframes fadein {
-    from {
-      bottom: 0;
-      opacity: 0;
-    }
-    to {
-      bottom: 10%;
-      opacity: 1;
-    }
-  }
-
-  @keyframes fadeout {
-    from {
-      bottom: 10%;
-      opacity: 1;
-    }
-    to {
-      bottom: 0;
-      opacity: 0;
-    }
   }
 `;
 

@@ -9,9 +9,15 @@ function App() {
   const dispatch = useDispatch();
 
   const [message, setMessage] = React.useState("");
+  const [direction, setDirection] = React.useState("bottom-center");
 
   function handleMessage(ev) {
     setMessage(ev.target.value);
+  }
+
+  function handleDirection(ev) {
+    console.log("The direction is", ev.target.value.toLowerCase());
+    setDirection(ev.target.value.toLowerCase());
   }
 
   function handleSubmit(ev) {
@@ -40,9 +46,13 @@ function App() {
         <Row>
           <label>Direction</label>
           <div>
-            <select>
-              <option>This</option>
-              <option>That</option>
+            <select onChange={handleDirection}>
+              <option>Bottom-Center</option>
+              {/* <option>Bottom-Right</option>
+              <option>Bottom-Left</option> */}
+              <option>Top-Center</option>
+              {/* <option>Top-Right</option>
+              <option>Top-Left</option> */}
             </select>
           </div>
         </Row>
@@ -50,7 +60,7 @@ function App() {
         <Button type="submit">Click Me</Button>
       </Content>
 
-      <Snackbar timeout={3000} />
+      <Snackbar timeout={3000} anchor={direction} />
       <GlobalStyles />
     </Wrapper>
   );
