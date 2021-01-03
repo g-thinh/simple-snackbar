@@ -8,6 +8,7 @@ const Snackbar = ({ children, timeout }) => {
   const dispatch = useDispatch();
   const TIME = (timeout - 500) / 1000 + "s";
   const SHOW = useSelector((state) => state.toggleSnackbar);
+  const MESSAGE = useSelector((state) => state.snackbarMessage);
 
   let TIMER;
   function handleTimeout() {
@@ -16,23 +17,19 @@ const Snackbar = ({ children, timeout }) => {
     }, timeout);
   }
 
-  if (SHOW) {
-    handleTimeout();
-  }
-
   function handleClose() {
     clearTimeout(TIMER);
     dispatch(toggleSnackbarClose());
   }
 
-  // React.useEffect(() => {
-  //   console.log("Timeout", TIMER);
-  // }, []);
+  if (SHOW) {
+    handleTimeout();
+  }
 
   return (
     SHOW && (
       <Bar timeout={TIME}>
-        <p>{children}</p>
+        <p>{MESSAGE}</p>
         <Button onClick={handleClose}>
           <FiX size="1.3rem" />
         </Button>

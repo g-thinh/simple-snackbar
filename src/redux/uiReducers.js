@@ -2,15 +2,17 @@
 
 const initialState = {
   toggleSnackbar: false,
+  snackbarMessage: null,
 };
 
-export default function chatReducer(state = initialState, action) {
+export default function uiReducer(state = initialState, action) {
   switch (action.type) {
     case "TOGGLE_SNACKBAR_OPEN": {
       // console.log("Snackbar is Open!");
       return {
         ...state,
         toggleSnackbar: true,
+        snackbarMessage: action.message,
       };
     }
 
@@ -19,6 +21,7 @@ export default function chatReducer(state = initialState, action) {
       return {
         ...state,
         toggleSnackbar: false,
+        snackbarMessage: null,
       };
     }
 

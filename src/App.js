@@ -7,11 +7,14 @@ import { toggleSnackbarOpen } from "./redux/uiActions";
 
 function App() {
   const dispatch = useDispatch();
-
   return (
     <Wrapper>
-      <button onClick={(ev) => dispatch(toggleSnackbarOpen())}>Click Me</button>
-      <Snackbar timeout={3000}>Hello World!</Snackbar>
+      <button
+        onClick={(ev) => dispatch(toggleSnackbarOpen("The snackbar works!"))}
+      >
+        Click Me
+      </button>
+      <Snackbar timeout={3000} />
       <GlobalStyles />
     </Wrapper>
   );

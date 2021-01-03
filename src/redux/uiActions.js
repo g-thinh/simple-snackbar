@@ -1,5 +1,6 @@
-export const toggleSnackbarOpen = () => ({
+export const toggleSnackbarOpen = (message) => ({
   type: "TOGGLE_SNACKBAR_OPEN",
+  message,
 });
 
 export const toggleSnackbarClose = () => ({
