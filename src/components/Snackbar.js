@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleSnackbarClose } from "../redux/uiActions";
-import { FiX } from "react-icons/fi";
+import { FiX, FiBell } from "react-icons/fi";
 
 const Snackbar = ({ children, timeout }) => {
   const dispatch = useDispatch();
@@ -29,7 +29,8 @@ const Snackbar = ({ children, timeout }) => {
   return (
     SHOW && (
       <Bar timeout={TIME}>
-        <p>{MESSAGE}</p>
+        <FiBell size="1.3rem" />
+        <Text>{MESSAGE}</Text>
         <Button onClick={handleClose}>
           <FiX size="1.3rem" />
         </Button>
@@ -50,7 +51,7 @@ const Bar = styled.div`
   transform: translateX(-50%);
 
   width: auto;
-  padding: 0.5rem 1rem;
+  padding: 0.625rem 1rem;
   border-radius: 0.75rem;
   background-color: hsla(200deg, 100%, 65%, 0.7);
   border: transparent;
@@ -88,6 +89,13 @@ const Bar = styled.div`
       opacity: 0;
     }
   }
+`;
+
+const Text = styled.p`
+  font-weight: 500;
+  line-height: 1.6;
+  font-size: 1rem;
+  margin-left: 0.875rem;
 `;
 
 const Button = styled.button`
