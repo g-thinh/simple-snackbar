@@ -48,11 +48,11 @@ function App() {
           <div>
             <select onChange={handleDirection}>
               <option>Bottom-Center</option>
-              {/* <option>Bottom-Right</option>
-              <option>Bottom-Left</option> */}
+              <option>Bottom-Right</option>
+              <option>Bottom-Left</option>
               <option>Top-Center</option>
-              {/* <option>Top-Right</option>
-              <option>Top-Left</option> */}
+              <option>Top-Right</option>
+              <option>Top-Left</option>
             </select>
           </div>
         </Row>
@@ -60,7 +60,7 @@ function App() {
         <Button type="submit">Click Me</Button>
       </Content>
 
-      <Snackbar timeout={3000} anchor={direction} />
+      <Snackbar timeout={30000} anchor={direction} />
       <GlobalStyles />
     </Wrapper>
   );

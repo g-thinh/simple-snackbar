@@ -30,13 +30,37 @@ const Snackbar = ({ timeout, anchor }) => {
 
   switch (anchor) {
     case "bottom-center": {
-      POSITION = { top: false, left: false };
+      POSITION = { top: false, left: false, center: true };
       console.log("bottom-center", POSITION);
       break;
     }
 
     case "top-center": {
-      POSITION = { top: true, left: false, right: false, center: true };
+      POSITION = { top: true, left: false, center: true };
+      console.log("top-center", POSITION);
+      break;
+    }
+
+    case "top-left": {
+      POSITION = { top: true, left: true, center: false };
+      console.log("top-center", POSITION);
+      break;
+    }
+
+    case "top-right": {
+      POSITION = { top: true, left: false, center: false };
+      console.log("top-center", POSITION);
+      break;
+    }
+
+    case "bottom-right": {
+      POSITION = { top: false, left: false, center: false };
+      console.log("top-center", POSITION);
+      break;
+    }
+
+    case "bottom-left": {
+      POSITION = { top: false, left: true, center: false };
       console.log("top-center", POSITION);
       break;
     }
@@ -51,8 +75,11 @@ const Snackbar = ({ timeout, anchor }) => {
   return (
     SHOW && (
       <Bar timeout={TIME} position={POSITION}>
-        <FiBell size="1.3rem" />
-        <Text>{MESSAGE}</Text>
+        <Left>
+          <FiBell size="1.3rem" />
+          <Text>{MESSAGE}</Text>
+        </Left>
+
         <Button onClick={handleClose}>
           <FiX size="1.3rem" />
         </Button>
@@ -67,18 +94,17 @@ const fadein = (pos) => keyframes`
       opacity: 0;
     }
     to {
-      ${pos.top ? "top: 10%" : "bottom: 10%"};
+      ${pos.top ? "top: 2rem" : "bottom: 2rem"};
       opacity: 1;
     }
 `;
 
 const fadeout = (pos) => keyframes`
     from {
-      ${pos.top ? "top: 10%" : "bottom: 10%"};
+      ${pos.top ? "top: 2rem" : "bottom: 2rem"};
       opacity: 1;
     }
     to {
-
       ${pos.top ? "top: 0" : "bottom: 0"};
       opacity: 0;
     }
@@ -86,34 +112,34 @@ const fadeout = (pos) => keyframes`
 
 const Bar = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 
   position: fixed;
   z-index: 9;
-  ${(props) => (props.position.top ? "top: 10%" : "bottom: 10%")};
-  left: 50%;
-  transform: translateX(-50%);
+  ${(props) => (props.position.top ? "top: 2rem" : "bottom: 2rem")};
+  ${(props) => (props.position.center ? "left: 50%" : null)};
+  ${(props) => (props.position.left ? "left: 2rem" : "right: 2rem")};
+  transform: ${(props) => (props.position.center ? "translateX(-50%)" : null)};
+  width: min-content;
+  white-space: nowrap;
 
-  width: auto;
   padding: 0.625rem 1rem;
   border-radius: 0.75rem;
-  background-color: hsla(200deg, 100%, 65%, 0.7);
+  background-color: hsla(200deg, 100%, 65%, 1);
   border: transparent;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  color: white;
-  font-weight: 500;
-  font-size: 18px;
-  text-align: center;
 
-  /* animation: fadein 0.5s, fadeout 0.5s ${(props) => props.timeout}; */
   animation: ${(props) => fadein(props.position)} 0.5s,
     ${(props) => fadeout(props.position)} 0.5s ${(props) => props.timeout};
+`;
 
-  &:hover {
-    /* filter: brightness(0.9); */
-    /* background-color: hsla(200deg, 100%, 65%, 0.8); */
-  }
+const Left = styled.div`
+  flex: 8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
 `;
 
 const Text = styled.p`
@@ -124,6 +150,7 @@ const Text = styled.p`
 `;
 
 const Button = styled.button`
+  flex: 2;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -139,7 +166,7 @@ const Button = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: hsla(200deg, 100%, 65%, 0.3);
+    background-color: hsla(200deg, 100%, 60%, 1);
   }
 `;
 
