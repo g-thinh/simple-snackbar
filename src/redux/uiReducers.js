@@ -6,15 +6,8 @@ const initialState = {
 
 export default function chatReducer(state = initialState, action) {
   switch (action.type) {
-    case "TOGGLE_SNACKBAR": {
-      return {
-        ...state,
-        toggleSnackbar: !state.toggleSnackbar,
-      };
-    }
-
     case "TOGGLE_SNACKBAR_OPEN": {
-      console.log("Snackbar is Open!");
+      // console.log("Snackbar is Open!");
       return {
         ...state,
         toggleSnackbar: true,
@@ -22,7 +15,7 @@ export default function chatReducer(state = initialState, action) {
     }
 
     case "TOGGLE_SNACKBAR_CLOSE": {
-      console.log("Snackbar is Closed!");
+      // console.log("Snackbar is Closed!");
       return {
         ...state,
         toggleSnackbar: false,
