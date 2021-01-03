@@ -1,19 +1,24 @@
 import React from "react";
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleSnackbarClose } from "../redux/uiActions";
+import { toggleSnackbar } from "../redux/uiActions";
 
-const Snackbar = ({ children }) => {
+const Snackbar = ({ children, timeout }) => {
   const dispatch = useDispatch();
+  const TIMER = (timeout - 500) / 1000 + "s";
   const SHOW = useSelector((state) => state.toggleSnackbar);
 
   if (SHOW) {
     setTimeout(() => {
-      dispatch(toggleSnackbarClose());
-    }, 3000);
+      dispatch(toggleSnackbar());
+    }, timeout);
   }
 
-  return SHOW && <Bar>{children}</Bar>;
+  // React.useEffect(() => {
+  //   console.log("Timeout", TIMER);
+  // }, []);
+
+  return SHOW && <Bar timeout={TIMER}>{children}</Bar>;
 };
 
 const Bar = styled.div`
@@ -35,7 +40,7 @@ const Bar = styled.div`
   font-size: 18px;
   text-align: center;
   z-index: 9;
-  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s ${(props) => props.timeout};
 
   @keyframes fadein {
     from {
