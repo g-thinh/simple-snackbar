@@ -7,11 +7,12 @@ import { toggleSnackbarOpen } from "./redux/uiActions";
 
 function App() {
   const dispatch = useDispatch();
-
   const TYPES = ["default", "success", "warning", "error"];
   const [message, setMessage] = React.useState("");
   const [direction, setDirection] = React.useState("bottom-center");
   const [type, setType] = React.useState("default");
+
+  // ############################ FUNCTIONS ################################
 
   function handleMessage(ev) {
     setMessage(ev.target.value);
@@ -36,10 +37,47 @@ function App() {
 
   function handleSubmit(ev) {
     ev.preventDefault();
-    dispatch(toggleSnackbarOpen(message || `This is a ${type} message!`));
+    dispatch(toggleSnackbarOpen(message || `This is the ${type} message!`));
   }
 
-  React.useEffect(() => {}, [type]);
+  // ########################### BUTTON COLORS ##########################
+
+  let COLORS = {};
+  switch (type) {
+    case "success": {
+      COLORS = {
+        primary: "hsl(147, 57%, 60%)",
+        secondary: "hsl(147, 57%, 55%)",
+      };
+      break;
+    }
+
+    case "warning": {
+      COLORS = {
+        primary: "hsl(47, 100%, 50%)",
+        secondary: "hsl(47, 100%, 45%)",
+      };
+      break;
+    }
+
+    case "error": {
+      COLORS = {
+        primary: "hsl(359, 100%, 70%)",
+        secondary: "hsl(359, 100%, 65%)",
+      };
+      break;
+    }
+
+    default: {
+      COLORS = {
+        primary: "hsl(200, 100%, 65%)",
+        secondary: "hsl(200, 100%, 60%)",
+      };
+      break;
+    }
+  }
+
+  // ############################## COMPONENT #########################
 
   return (
     <Wrapper>
@@ -55,7 +93,7 @@ function App() {
               type="text"
               value={message}
               onChange={handleMessage}
-              placeholder="Write some text here..."
+              placeholder="Write some custom text here..."
             />
           </div>
         </Row>
@@ -75,19 +113,29 @@ function App() {
         <Row>
           <label>Type</label>
           <div>
-            <button type="button" onClick={handleTypeChange}>
+            <TypeButton type="button" onClick={handleTypeChange} color={COLORS}>
               {capitalizeFirstLetter(type)}
-            </button>
+            </TypeButton>
           </div>
         </Row>
         <Button type="submit">Click Me</Button>
       </Content>
-
-      <Snackbar timeout={3000} anchor={direction} type={type} />
+      <Footer>
+        Made by
+        <a href="https://giathinhnguyen.com/" target="_blank" rel="noreferrer">
+          {" "}
+          Gia Thinh Nguyen
+        </a>
+      </Footer>
+      <Snackbar timeout={30000} anchor={direction} type={type} />
       <GlobalStyles />
     </Wrapper>
   );
 }
+
+// ########################################################################
+// ############################### STYLES #################################
+// ########################################################################
 
 const Wrapper = styled.div`
   height: 100vh;
@@ -114,6 +162,10 @@ const Content = styled.form`
   &:hover {
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
   }
+
+  @media (min-width: 800px) {
+    width: 70%;
+  }
 `;
 
 const Row = styled.div`
@@ -135,14 +187,13 @@ const Row = styled.div`
   & div {
     flex: 8;
     & input {
-      font-size: 1.1rem;
+      font-size: 1rem;
       line-height: 1.6;
       outline: none;
       border: 1px solid rgba(145, 145, 145, 0.5);
       border-radius: 12px;
-      width: 100%;
+      width: 80%;
       padding: 0.3rem 0.5rem;
-      /* margin-left: 0.5rem; */
       &::placeholder {
         opacity: 0.5;
       }
@@ -153,6 +204,8 @@ const Row = styled.div`
     }
   }
 `;
+
+// ########### HEADER STUFF #############
 
 const Header = styled.div`
   display: flex;
@@ -166,7 +219,7 @@ const Subheader = styled.p`
   font-weight: 400;
   text-align: center;
   font-size: 1.3rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 `;
 
 const Title = styled.h1`
@@ -174,8 +227,10 @@ const Title = styled.h1`
   font-family: "Poppins", sans-serif;
   font-size: 3rem;
   font-weight: 100;
-  margin: 2rem;
+  margin: 1rem;
 `;
+
+// #################### BUTTONS ###############
 
 const Button = styled.button`
   text-align: center;
@@ -189,9 +244,52 @@ const Button = styled.button`
   box-shadow: 1px 2px 5px 0px rgba(145, 145, 145, 0.7);
   border-radius: 12px;
   cursor: pointer;
-
+  outline: none;
   &:hover {
-    filter: brightness(0.9);
+    background-color: hsla(200deg, 100%, 60%, 0.7);
+  }
+`;
+
+const TypeButton = styled.button`
+  text-align: center;
+  width: 8rem;
+  height: auto;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: ${(props) => props.color.primary};
+  color: #fff;
+  border: 1px solid ${(props) => props.color.secondary};
+  box-shadow: 1px 2px 5px 0px rgba(145, 145, 145, 0.7);
+  border-radius: 12px;
+  cursor: pointer;
+  outline: none;
+  &:hover {
+    background-color: ${(props) => props.color.secondary};
+  }
+`;
+
+// ################ FOOTER ###############
+
+const Footer = styled.div`
+  width: 95%;
+  font-family: "Poppins", sans-serif;
+  font-weight: 400;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  & a {
+    text-decoration: none;
+    color: inherit;
+    font-family: inherit;
+    font-weight: bold;
+
+    &:hover {
+      color: hsla(200deg, 100%, 60%, 1);
+    }
   }
 `;
 
