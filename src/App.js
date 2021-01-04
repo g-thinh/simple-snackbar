@@ -95,7 +95,7 @@ function App() {
               type="text"
               value={message}
               onChange={handleMessage}
-              placeholder="Write some custom text here..."
+              placeholder="Write text here..."
             />
             <p>{charCount}</p>
           </RowContent>
@@ -136,7 +136,7 @@ function App() {
           Gia Thinh Nguyen
         </a>
       </Footer>
-      <Snackbar timeout={30000} anchor={direction} type={type} />
+      <Snackbar timeout={3000} anchor={direction} type={type} />
       <GlobalStyles />
     </Wrapper>
   );
