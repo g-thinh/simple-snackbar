@@ -2,9 +2,15 @@ import React from "react";
 import styled, { keyframes } from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleSnackbarClose } from "../redux/uiActions";
-import { FiX, FiBell } from "react-icons/fi";
+import {
+  FiX,
+  FiBell,
+  FiCheckCircle,
+  FiAlertCircle,
+  FiAlertTriangle,
+} from "react-icons/fi";
 
-const Snackbar = ({ timeout, anchor }) => {
+const Snackbar = ({ timeout, anchor, type }) => {
   const dispatch = useDispatch();
   const TIME = (timeout - 500) / 1000 + "s";
   const SHOW = useSelector((state) => state.toggleSnackbar);
@@ -12,6 +18,7 @@ const Snackbar = ({ timeout, anchor }) => {
 
   let POSITION;
   let TIMER;
+  let COLORS = {};
   function handleTimeout() {
     TIMER = setTimeout(() => {
       dispatch(toggleSnackbarClose());
@@ -24,63 +31,110 @@ const Snackbar = ({ timeout, anchor }) => {
     dispatch(toggleSnackbarClose());
   }
 
+  function setIcon() {
+    switch (type) {
+      case "success": {
+        return <FiCheckCircle size="1.3rem" />;
+      }
+
+      case "warning": {
+        return <FiAlertTriangle size="1.3rem" />;
+      }
+
+      case "error": {
+        return <FiAlertCircle size="1.3rem" />;
+      }
+
+      default: {
+        return <FiBell size="1.3rem" />;
+      }
+    }
+  }
+
   if (SHOW) {
     handleTimeout();
+  }
+
+  switch (type) {
+    case "success": {
+      COLORS = {
+        primary: "hsl(147, 57%, 60%)",
+        secondary: "hsl(147, 57%, 55%)",
+      };
+      break;
+    }
+
+    case "warning": {
+      COLORS = {
+        primary: "hsl(47, 100%, 50%)",
+        secondary: "hsl(47, 100%, 45%)",
+      };
+      break;
+    }
+
+    case "error": {
+      COLORS = {
+        primary: "hsl(359, 100%, 70%)",
+        secondary: "hsl(359, 100%, 65%)",
+      };
+      break;
+    }
+
+    default: {
+      COLORS = {
+        primary: "hsl(200, 100%, 65%)",
+        secondary: "hsl(200, 100%, 60%)",
+      };
+      break;
+    }
   }
 
   switch (anchor) {
     case "bottom-center": {
       POSITION = { top: false, left: false, center: true };
-      console.log("bottom-center", POSITION);
       break;
     }
 
     case "top-center": {
       POSITION = { top: true, left: false, center: true };
-      console.log("top-center", POSITION);
       break;
     }
 
     case "top-left": {
       POSITION = { top: true, left: true, center: false };
-      console.log("top-center", POSITION);
       break;
     }
 
     case "top-right": {
       POSITION = { top: true, left: false, center: false };
-      console.log("top-center", POSITION);
       break;
     }
 
     case "bottom-right": {
       POSITION = { top: false, left: false, center: false };
-      console.log("top-center", POSITION);
       break;
     }
 
     case "bottom-left": {
       POSITION = { top: false, left: true, center: false };
-      console.log("top-center", POSITION);
       break;
     }
 
     default: {
       POSITION = { top: true, left: false, right: false, center: true };
-      console.log("default position", POSITION);
       break;
     }
   }
 
   return (
     SHOW && (
-      <Bar timeout={TIME} position={POSITION}>
+      <Bar timeout={TIME} position={POSITION} color={COLORS}>
         <Left>
-          <FiBell size="1.3rem" />
+          {setIcon()}
           <Text>{MESSAGE}</Text>
         </Left>
 
-        <Button onClick={handleClose}>
+        <Button onClick={handleClose} color={COLORS}>
           <FiX size="1.3rem" />
         </Button>
       </Bar>
@@ -126,7 +180,7 @@ const Bar = styled.div`
 
   padding: 0.625rem 1rem;
   border-radius: 0.75rem;
-  background-color: hsla(200deg, 100%, 65%, 1);
+  background-color: ${(props) => props.color.primary};
   border: transparent;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 
@@ -166,7 +220,7 @@ const Button = styled.button`
   cursor: pointer;
 
   &:hover {
-    background-color: hsla(200deg, 100%, 60%, 1);
+    background-color: ${(props) => props.color.secondary};
   }
 `;
 

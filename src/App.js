@@ -8,22 +8,38 @@ import { toggleSnackbarOpen } from "./redux/uiActions";
 function App() {
   const dispatch = useDispatch();
 
+  const TYPES = ["default", "success", "warning", "error"];
   const [message, setMessage] = React.useState("");
   const [direction, setDirection] = React.useState("bottom-center");
+  const [type, setType] = React.useState("default");
 
   function handleMessage(ev) {
     setMessage(ev.target.value);
   }
 
+  function capitalizeFirstLetter(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  function handleTypeChange() {
+    let currentIndex = TYPES.indexOf(type);
+    if (currentIndex >= 0 && currentIndex < TYPES.length - 1) {
+      setType(TYPES[currentIndex + 1]);
+    } else {
+      setType(TYPES[0]);
+    }
+  }
+
   function handleDirection(ev) {
-    console.log("The direction is", ev.target.value.toLowerCase());
     setDirection(ev.target.value.toLowerCase());
   }
 
   function handleSubmit(ev) {
     ev.preventDefault();
-    dispatch(toggleSnackbarOpen(message || "Hello World"));
+    dispatch(toggleSnackbarOpen(message || `This is a ${type} message!`));
   }
+
+  React.useEffect(() => {}, [type]);
 
   return (
     <Wrapper>
@@ -56,11 +72,18 @@ function App() {
             </select>
           </div>
         </Row>
-
+        <Row>
+          <label>Type</label>
+          <div>
+            <button type="button" onClick={handleTypeChange}>
+              {capitalizeFirstLetter(type)}
+            </button>
+          </div>
+        </Row>
         <Button type="submit">Click Me</Button>
       </Content>
 
-      <Snackbar timeout={30000} anchor={direction} />
+      <Snackbar timeout={3000} anchor={direction} type={type} />
       <GlobalStyles />
     </Wrapper>
   );
