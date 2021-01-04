@@ -35,7 +35,7 @@ time, mark, audio, video, textarea {
   font-size: 100%;
 	/* font-family: 'Lato',-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; */
   vertical-align: baseline;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   ::-webkit-scrollbar {
         width: 12px;
         color: lightgrey;
@@ -78,6 +78,25 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    padding: 0.3rem 0.5rem;
+    border: 1px solid rgba(145, 145, 145, 0.5);
+    font-size: 1rem;
+    line-height: 1.6;
+    border-radius: 12px;
+    cursor: pointer;
+    width: 8rem;
+    text-align: center;
+    outline: none;
+}
+
+option {
+  text-align: center;
 }
 
 `;
