@@ -11,11 +11,13 @@ function App() {
   const [message, setMessage] = React.useState("");
   const [direction, setDirection] = React.useState("bottom-center");
   const [type, setType] = React.useState("default");
+  const [charCount, setCharCount] = React.useState(message.length || 0);
 
   // ############################ FUNCTIONS ################################
 
   function handleMessage(ev) {
     setMessage(ev.target.value);
+    setCharCount(ev.target.value.length);
   }
 
   function capitalizeFirstLetter(str) {
@@ -87,38 +89,45 @@ function App() {
       </Header>
       <Content onSubmit={handleSubmit}>
         <Row>
-          <label>Message</label>
-          <div>
-            <input
+          <Label>Message</Label>
+          <RowContent>
+            <InputField
               type="text"
               value={message}
               onChange={handleMessage}
               placeholder="Write some custom text here..."
             />
-          </div>
+            <p>{charCount}</p>
+          </RowContent>
         </Row>
         <Row>
-          <label>Direction</label>
-          <div>
+          <Label>Direction</Label>
+          <RowContent>
             <select onChange={handleDirection}>
               <option>Bottom-Center</option>
-              <option>Bottom-Right</option>
-              <option>Bottom-Left</option>
               <option>Top-Center</option>
-              <option>Top-Right</option>
-              <option>Top-Left</option>
+              {charCount <= 50 && (
+                <>
+                  <option>Bottom-Right</option>
+                  <option>Top-Right</option>
+                  <option>Bottom-Left</option>
+                  <option>Top-Left</option>
+                </>
+              )}
             </select>
-          </div>
+            <p>{charCount > 50 && <span>Disabled L-R</span>}</p>
+          </RowContent>
         </Row>
         <Row>
-          <label>Type</label>
-          <div>
+          <Label>Type</Label>
+          <RowContent>
             <TypeButton type="button" onClick={handleTypeChange} color={COLORS}>
               {capitalizeFirstLetter(type)}
             </TypeButton>
-          </div>
+          </RowContent>
         </Row>
-        <Button type="submit">Click Me</Button>
+        <Divider />
+        <Button type="submit">CLICK ME</Button>
       </Content>
       <Footer>
         Made by
@@ -155,7 +164,7 @@ const Content = styled.form`
   width: 95%;
   height: auto;
   margin-bottom: 2rem;
-  padding: 2rem;
+  padding: 2rem 1rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 
@@ -164,7 +173,7 @@ const Content = styled.form`
   }
 
   @media (min-width: 800px) {
-    width: 70%;
+    width: 80%;
   }
 `;
 
@@ -174,35 +183,48 @@ const Row = styled.div`
   align-items: center;
   width: 100%;
   margin: 0.5rem 0;
+`;
 
-  & label {
-    flex: 2;
-    font-family: "Poppins", sans-serif;
-    text-align: center;
-    font-weight: bold;
-    margin-right: 0.5rem;
-    font-size: 1.1rem;
-  }
+const RowContent = styled.div`
+  flex: 7;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
 
-  & div {
-    flex: 8;
-    & input {
-      font-size: 1rem;
-      line-height: 1.6;
-      outline: none;
-      border: 1px solid rgba(145, 145, 145, 0.5);
-      border-radius: 12px;
-      width: 80%;
-      padding: 0.3rem 0.5rem;
-      &::placeholder {
-        opacity: 0.5;
-      }
-
-      &:focus::placeholder {
-        color: transparent;
-      }
+  & p {
+    font-size: 0.8rem;
+    padding-left: 0.5rem;
+    & span {
+      text-align: center;
+      color: red;
     }
   }
+`;
+
+const InputField = styled.input`
+  font-size: 1rem;
+  line-height: 1.6;
+  outline: none;
+  border: 1px solid rgba(145, 145, 145, 0.5);
+  border-radius: 12px;
+  width: 80%;
+  padding: 0.3rem 0.5rem;
+  &::placeholder {
+    opacity: 0.5;
+  }
+
+  &:focus::placeholder {
+    color: transparent;
+  }
+`;
+
+const Label = styled.label`
+  flex: 3;
+  font-family: "Poppins", sans-serif;
+  text-align: center;
+  font-weight: bold;
+  margin-right: 0.5rem;
+  font-size: 1.1rem;
 `;
 
 // ########### HEADER STUFF #############
@@ -236,9 +258,11 @@ const Button = styled.button`
   text-align: center;
   width: auto;
   height: auto;
-  font-size: 1.3rem;
+  font-size: 1rem;
+  font-weight: 600;
   padding: 0.5rem 1rem;
-  margin-top: 2rem;
+  color: #fff;
+  /* margin-top: 2rem; */
   background-color: hsla(200deg, 100%, 65%, 0.7);
   border: 1px solid hsla(200deg, 100%, 65%, 0.7);
   box-shadow: 1px 2px 5px 0px rgba(145, 145, 145, 0.7);
@@ -247,6 +271,7 @@ const Button = styled.button`
   outline: none;
   &:hover {
     background-color: hsla(200deg, 100%, 60%, 0.7);
+    color: black;
   }
 `;
 
@@ -269,6 +294,14 @@ const TypeButton = styled.button`
 `;
 
 // ################ FOOTER ###############
+
+const Divider = styled.div`
+  height: 1px;
+  width: 80%;
+  border-radius: 50%;
+  background-color: lightgray;
+  margin: 1.5rem;
+`;
 
 const Footer = styled.div`
   width: 95%;
