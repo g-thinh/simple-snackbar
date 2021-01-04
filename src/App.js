@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import Snackbar from "./components/Snackbar";
 import GlobalStyles from "./components/GlobalStyles";
+import Footer from "./components/Footer";
+import Header from "./components/Header";
 import { useDispatch } from "react-redux";
 import { toggleSnackbarOpen } from "./redux/uiActions";
 
@@ -83,10 +85,7 @@ function App() {
 
   return (
     <Wrapper>
-      <Header>
-        <Title>Simple Snackbar</Title>
-        <Subheader>Watchout! It's a snackbar 😲</Subheader>
-      </Header>
+      <Header />
       <Content onSubmit={handleSubmit}>
         <Row>
           <Label>Message</Label>
@@ -129,13 +128,7 @@ function App() {
         <Divider />
         <Button type="submit">CLICK ME</Button>
       </Content>
-      <Footer>
-        Made by
-        <a href="https://giathinhnguyen.com/" target="_blank" rel="noreferrer">
-          {" "}
-          Gia Thinh Nguyen
-        </a>
-      </Footer>
+      <Footer />
       <Snackbar timeout={3000} anchor={direction} type={type} />
       <GlobalStyles />
     </Wrapper>
@@ -227,29 +220,12 @@ const Label = styled.label`
   font-size: 1.1rem;
 `;
 
-// ########### HEADER STUFF #############
-
-const Header = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Subheader = styled.p`
-  font-family: "Poppins", sans-serif;
-  font-weight: 400;
-  text-align: center;
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
-`;
-
-const Title = styled.h1`
-  text-align: center;
-  font-family: "Poppins", sans-serif;
-  font-size: 3rem;
-  font-weight: 100;
-  margin: 1rem;
+const Divider = styled.div`
+  height: 1px;
+  width: 80%;
+  border-radius: 50%;
+  background-color: lightgray;
+  margin: 1.5rem;
 `;
 
 // #################### BUTTONS ###############
@@ -290,39 +266,6 @@ const TypeButton = styled.button`
   outline: none;
   &:hover {
     background-color: ${(props) => props.color.secondary};
-  }
-`;
-
-// ################ FOOTER ###############
-
-const Divider = styled.div`
-  height: 1px;
-  width: 80%;
-  border-radius: 50%;
-  background-color: lightgray;
-  margin: 1.5rem;
-`;
-
-const Footer = styled.div`
-  width: 95%;
-  font-family: "Poppins", sans-serif;
-  font-weight: 400;
-  text-align: center;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-
-  & a {
-    text-decoration: none;
-    color: inherit;
-    font-family: inherit;
-    font-weight: bold;
-
-    &:hover {
-      color: hsla(200deg, 100%, 60%, 1);
-    }
   }
 `;
 
