@@ -148,14 +148,14 @@ const fadein = (pos) => keyframes`
       opacity: 0;
     }
     to {
-      ${pos.top ? "top: 2rem" : "bottom: 2rem"};
+      ${pos.top ? "top: 1rem" : "bottom: 1rem"};
       opacity: 1;
     }
 `;
 
 const fadeout = (pos) => keyframes`
     from {
-      ${pos.top ? "top: 2rem" : "bottom: 2rem"};
+      ${pos.top ? "top: 1rem" : "bottom: 1rem"};
       opacity: 1;
     }
     to {
@@ -168,16 +168,16 @@ const Bar = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
   position: fixed;
   z-index: 9;
-  ${(props) => (props.position.top ? "top: 2rem" : "bottom: 2rem")};
+  ${(props) => (props.position.top ? "top: 1rem" : "bottom: 1rem")};
   ${(props) => (props.position.center ? "left: 50%" : null)};
-  ${(props) => (props.position.left ? "left: 2rem" : "right: 2rem")};
+  ${(props) => (props.position.left ? "left: 1rem" : "right: 1rem")};
   transform: ${(props) => (props.position.center ? "translateX(-50%)" : null)};
-  width: min-content;
-  white-space: nowrap;
-
+  width: max-content;
+  min-width: min-content;
+  max-width: 95%;
+  height: auto;
   padding: 0.625rem 1rem;
   border-radius: 0.75rem;
   background-color: ${(props) => props.color.primary};
@@ -191,7 +191,7 @@ const Bar = styled.div`
 const Left = styled.div`
   flex: 8;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   color: white;
 `;
@@ -201,10 +201,12 @@ const Text = styled.p`
   line-height: 1.6;
   font-size: 1rem;
   margin-left: 0.875rem;
+  width: 100%;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 `;
 
 const Button = styled.button`
-  flex: 2;
   display: flex;
   justify-content: center;
   align-items: center;
