@@ -24,15 +24,15 @@ const Subheader = styled.p`
   font-weight: 400;
   text-align: center;
   font-size: 1.3rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 `;
 
 const Title = styled.h1`
   text-align: center;
   font-family: "Poppins", sans-serif;
-  font-size: 3rem;
+  font-size: 2.5rem;
   font-weight: 100;
-  margin: 1rem;
+  margin: 0.5rem;
 `;
 
 export default Header;

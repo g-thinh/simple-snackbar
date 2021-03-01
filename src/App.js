@@ -4,6 +4,7 @@ import Snackbar from "./components/Snackbar";
 import GlobalStyles from "./components/GlobalStyles";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
+import FloatingActionButton from "./components/FloatingActionButton";
 import { useDispatch } from "react-redux";
 import { toggleSnackbarOpen } from "./redux/uiActions";
 
@@ -13,6 +14,7 @@ function App() {
   const [message, setMessage] = React.useState("");
   const [direction, setDirection] = React.useState("bottom-center");
   const [type, setType] = React.useState("default");
+  const [showFAB, setShowFAB] = React.useState(true);
   const [charCount, setCharCount] = React.useState(message.length || 0);
 
   // ############################ FUNCTIONS ################################
@@ -42,6 +44,11 @@ function App() {
   function handleSubmit(ev) {
     ev.preventDefault();
     dispatch(toggleSnackbarOpen(message || `This is the ${type} message!`));
+  }
+
+  function handleShowFAB(ev) {
+    ev.preventDefault();
+    setShowFAB((val) => !val);
   }
 
   // ########################### BUTTON COLORS ##########################
@@ -80,6 +87,16 @@ function App() {
       break;
     }
   }
+
+  const trueColors = {
+    primary: "hsl(147, 57%, 60%)",
+    secondary: "hsl(147, 57%, 55%)",
+  };
+
+  const falseColors = {
+    primary: "hsl(359, 100%, 70%)",
+    secondary: "hsl(359, 100%, 65%)",
+  };
 
   // ############################## COMPONENT #########################
 
@@ -125,11 +142,25 @@ function App() {
             </TypeButton>
           </RowContent>
         </Row>
+        <Row>
+          <Label>Enable FAB</Label>
+          <RowContent>
+            {/* <input type="checkbox" value={showFAB} /> */}
+            <TypeButton
+              type="button"
+              onClick={handleShowFAB}
+              color={showFAB ? trueColors : falseColors}
+            >
+              {showFAB ? "True" : "False"}
+            </TypeButton>
+          </RowContent>
+        </Row>
         <Divider />
         <Button type="submit">CLICK ME</Button>
       </Content>
       <Footer />
       <Snackbar timeout={3000} anchor={direction} type={type} />
+      {showFAB && <FloatingActionButton />}
       <GlobalStyles />
     </Wrapper>
   );
@@ -156,8 +187,8 @@ const Content = styled.form`
   border-radius: 0.25rem;
   width: 95%;
   height: auto;
-  margin-bottom: 2rem;
-  padding: 2rem 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1.5rem 0.8rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 

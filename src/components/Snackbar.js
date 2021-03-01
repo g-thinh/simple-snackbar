@@ -183,7 +183,7 @@ const Bar = styled.div`
   background-color: ${(props) => props.color.primary};
   border: transparent;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-
+  transition: all 0.5s;
   animation: ${(props) => fadein(props.position)} 0.5s,
     ${(props) => fadeout(props.position)} 0.5s ${(props) => props.timeout};
 `;
