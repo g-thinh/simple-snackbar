@@ -8,7 +8,22 @@ const FloatingActionButton = () => {
   const STATE = useSelector((state) => state.toggleSnackbar);
 
   useEffect(() => {
-    setPosition(STATE ? "5rem" : "1rem");
+    // Adjust FAB height from bottom depending on the size of the
+    // snackbar message
+    const FabElement = document.getElementById("snackbar");
+    if (FabElement) {
+      const FAB_HEIGHT = FabElement?.offsetHeight;
+      if (FAB_HEIGHT > 70 && STATE) {
+        setPosition("6rem");
+      } else {
+        setPosition("4.5rem");
+      }
+    }
+
+    // always reset the position when there is no snackbar
+    if (!STATE) {
+      setPosition("1rem");
+    }
   }, [position, STATE]);
 
   return (
@@ -27,21 +42,12 @@ const scaleBig = keyframes`
   }
 `;
 
-const scaleSmall = keyframes`
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(0.2);
-  }
-`;
-
 const FAButton = styled.button`
   position: fixed;
   right: 1rem;
   bottom: 1rem;
   bottom: ${(props) => props.position.toString()};
-  transition: bottom 0.3s ease-in-out, ${scaleBig} 0.5s, ${scaleSmall} 0.5s;
+  transition: bottom 0.3s ease-in-out, ${scaleBig} 0.5s;
 
   z-index: 5000;
 

@@ -128,7 +128,7 @@ const Snackbar = ({ timeout, anchor, type }) => {
 
   return (
     SHOW && (
-      <Bar timeout={TIME} position={POSITION} color={COLORS}>
+      <Bar id="snackbar" timeout={TIME} position={POSITION} color={COLORS}>
         <Left>
           {setIcon()}
           <Text>{MESSAGE}</Text>
@@ -176,7 +176,7 @@ const Bar = styled.div`
   transform: ${(props) => (props.position.center ? "translateX(-50%)" : null)};
   width: max-content;
   min-width: min-content;
-  max-width: 95%;
+  max-width: calc(100% - 2rem);
   height: auto;
   padding: 0.625rem 1rem;
   border-radius: 0.75rem;
