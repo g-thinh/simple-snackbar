@@ -30,9 +30,13 @@ const Subheader = styled.p`
 const Title = styled.h1`
   text-align: center;
   font-family: "Poppins", sans-serif;
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: 100;
   margin: 0.5rem;
+
+  @media (min-width: 500px) {
+    font-size: 2.5rem;
+  }
 `;
 
 export default Header;
