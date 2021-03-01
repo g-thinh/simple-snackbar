@@ -14,6 +14,7 @@ This is my attempt at creating a snackbar component inspired by Material UI's sn
 - Automatically closes itself after timeout or on close button.
 - No consecutive snackbars.
 - No character limit for message. (Suggested max 2 lines).
+- Display a Floating Action Button to see how the Snackbar is shown. The FAB will always hover above the snackbar, as its observes the snackbars' message height and adjusts its position accordingly.
 
 ## Usage:
 
@@ -24,5 +25,5 @@ This is my attempt at creating a snackbar component inspired by Material UI's sn
 ## Stuff i'd want to add:
 
 - Custom dismiss button within snackbar with a handler function to dismiss or undo actions.
-- Handle placement where there is a Floating Action Button for mobile.
+- ~~Handle placement where there is a Floating Action Button for mobile.~~
 - Different placement of dimissal button for two-line messages.
